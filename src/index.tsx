@@ -17,6 +17,10 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
+        <div
+          className="universe-background"
+          style={{ backgroundImage: 'url(/assets/background.webp)' }}
+        ></div>
         <Logo />
         <RouterProvider router={router} />
       </PersistGate>
