@@ -42,9 +42,14 @@ describe('Character API', () => {
       const mockError = new AxiosError(errorMessage);
 
       jest.spyOn(axios, 'get').mockRejectedValue(mockError);
-      await expect(fetchFilteredCharacters()).rejects.toThrow(errorMessage);
+      const params = { name: 'name' };
+      await expect(fetchFilteredCharacters(params)).rejects.toThrow(
+        errorMessage
+      );
 
-      expect(axios.get).toHaveBeenCalledWith(endPointCharacter);
+      expect(axios.get).toHaveBeenCalledWith(endPointCharacter, {
+        params,
+      });
     });
   });
 });
