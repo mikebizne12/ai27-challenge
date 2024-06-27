@@ -6,10 +6,15 @@ import Loading from '../../components/Loading/Loading';
 import { Filter } from 'src/utils/interfaces/filter';
 import NotFoundAlert from '../../components/NotFoundAlert/NotFoundAlert';
 import { useAppDispatch } from 'src/redux/hooks';
-import { reset, saveCharacteSelected } from 'src/redux/slices/characterSlice';
+import {
+  resetSelected,
+  saveCharacteSelected,
+  saveLastCharacterSelected,
+} from 'src/redux/slices/characterSlice';
 import { Character } from 'src/utils/interfaces/character';
 import { CharacterStatus } from 'src/utils/enums/character';
 import { useNavigate } from 'react-router-dom';
+import LastCharacters from '../../components/LastCharacters/LastCharacters';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -23,7 +28,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchCharacters();
-    dispatch(reset());
+    dispatch(resetSelected());
   }, [dispatch]);
 
   const fetchCharacters = async (params?: Filter) => {
@@ -61,6 +66,7 @@ export default function Home() {
 
   const handleDetail = (item: Character) => {
     dispatch(saveCharacteSelected(item));
+    dispatch(saveLastCharacterSelected(item));
     navigate('/detail');
   };
 
@@ -120,6 +126,9 @@ export default function Home() {
           Clear
         </button>
       </form>
+      <section>
+        <LastCharacters />
+      </section>
       <Loading open={loading} className="mt-4" />
       {!loading && (
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-4 gap-y-8 border-t border-gray-200 sm:mt-4 sm:pt-4 lg:mx-0 lg:max-w-none lg:grid-cols-3">
