@@ -7,7 +7,6 @@ module.exports = {
   // if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
   moduleNameMapper: {
     '@components/(.*)$': '<rootDir>/src/components/$1',
-    '@redux/(.*)$': '<rootDir>/src/redux/$1',
     '@utils/(.*)$': '<rootDir>/src/utils/$1',
     '@mocks/(.*)$': '<rootDir>/__mocks__/$1',
     '@api/(.*)$': '<rootDir>/src/services/$1',
