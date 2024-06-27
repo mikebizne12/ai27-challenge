@@ -7,7 +7,6 @@ import { Filter } from 'src/utils/interfaces/filter';
 import NotFoundAlert from '../../components/NotFoundAlert/NotFoundAlert';
 import { useAppDispatch } from 'src/redux/hooks';
 import {
-  reset,
   resetSelected,
   saveCharacteSelected,
   saveLastCharacterSelected,
