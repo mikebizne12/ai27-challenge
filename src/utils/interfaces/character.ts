@@ -1,4 +1,3 @@
-import { Episode } from './episode';
 import { Location } from './location';
 
 export interface Character {
@@ -12,5 +11,4 @@ export interface Character {
   location: Location;
   image: string;
   episode: Array<string>;
-  episode_detail: Episode;
 }
