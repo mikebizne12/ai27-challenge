@@ -11,4 +11,5 @@ export interface Character {
   location: Location;
   image: string;
   episode: Array<string>;
+  lastCharacters?: Array<Character>;
 }

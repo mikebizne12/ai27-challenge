@@ -6,15 +6,15 @@ import { CharacterStatus } from 'src/utils/enums/character';
 
 export default function Detail() {
   let navigate = useNavigate();
-  const character = useCharacterSelector();
+  const { selected } = useCharacterSelector();
   const { name, location, type, gender, image, origin, status, species } =
-    character;
+    selected;
 
   useEffect(() => {
-    if (!character.name) {
+    if (!selected.name) {
       navigate('/');
     }
-  }, [character, navigate]);
+  }, [selected, navigate]);
 
   const icon = () => {
     return (

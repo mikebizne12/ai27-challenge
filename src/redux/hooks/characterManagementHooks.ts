@@ -1,8 +1,8 @@
 import { RootState } from '../store';
 import { useAppSelector } from '../hooks';
-import { Character } from 'src/utils/interfaces/character';
+import { CharacterPayload } from '../types/character';
 
-export const useCharacterSelector = (): Character =>
+export const useCharacterSelector = (): CharacterPayload =>
   useAppSelector((state: RootState) => {
     return state.character;
   });
