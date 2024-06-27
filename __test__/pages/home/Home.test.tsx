@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { act } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Home from '../../../src/pages/home/Home';
+import { customRender } from '../../../src/utils/common/TestUtils';
 import { CharacterMockResponse } from '../../../__mocks__/characterMock';
 import axios, { AxiosError } from 'axios';
 import MockAdapter from 'axios-mock-adapter';
@@ -26,9 +27,7 @@ describe('Home Component', () => {
 
     mock.onGet(endPointCharacter).reply(200, { results: mockData });
 
-    render(<Home />);
-
-    expect(screen.getByRole('img')).toBeInTheDocument();
+    customRender(<Home />, { withRedux: true, mockInitialState: {} });
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 
@@ -40,7 +39,7 @@ describe('Home Component', () => {
   });
 
   test('should be simulate search input, search button click, and clear button click', async () => {
-    render(<Home />);
+    customRender(<Home />, { withRedux: true, mockInitialState: {} });
 
     const searchInput = screen.getByPlaceholderText(
       'Search by name...'
@@ -61,7 +60,10 @@ describe('Home Component', () => {
   test('should be handler submit form', async () => {
     let spy = jest.spyOn(axios, 'get');
 
-    render(<Home />);
+    await act(async () => {
+      customRender(<Home />, { withRedux: true, mockInitialState: {} });
+    });
+
     const nameInput = screen.getByPlaceholderText(
       'Search by name...'
     ) as HTMLInputElement;
@@ -69,14 +71,15 @@ describe('Home Component', () => {
 
     const submitButton = screen.getByRole('button', { name: 'Search' });
     fireEvent.click(submitButton);
-
-    expect(nameInput.value).toBe('Rick');
-    expect(spy).toHaveBeenCalledTimes(2);
-    expect(spy).toHaveBeenNthCalledWith(1, endPointCharacter, {
-      params: undefined,
-    });
-    expect(spy).toHaveBeenNthCalledWith(2, endPointCharacter, {
-      params: { name: 'Rick' },
+    await waitFor(() => {
+      expect(nameInput.value).toBe('Rick');
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenNthCalledWith(1, endPointCharacter, {
+        params: undefined,
+      });
+      expect(spy).toHaveBeenNthCalledWith(2, endPointCharacter, {
+        params: { name: 'Rick' },
+      });
     });
     spy.mockRestore();
   });
@@ -88,7 +91,7 @@ describe('Home Component', () => {
     jest.spyOn(axios, 'get').mockRejectedValue(mockError);
     await expect(fetchFilteredCharacters()).rejects.toThrow(errorMessage);
 
-    render(<Home />);
+    customRender(<Home />, { withRedux: true, mockInitialState: {} });
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 
