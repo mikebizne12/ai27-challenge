@@ -23,11 +23,14 @@ describe('Home Component', () => {
   });
 
   test('should be fetch the characters', async () => {
-    const mockData = CharacterMockResponse.results;
+    const mockData = CharacterMockResponse;
 
-    mock.onGet(endPointCharacter).reply(200, { results: mockData });
+    mock.onGet(endPointCharacter).reply(200, mockData);
 
-    customRender(<Home />, { withRedux: true, mockInitialState: {} });
+    customRender(<Home />, {
+      withRedux: true,
+      mockInitialState: { character: { lastCharacters: [] } },
+    });
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 
@@ -39,7 +42,10 @@ describe('Home Component', () => {
   });
 
   test('should be simulate search input, search button click, and clear button click', async () => {
-    customRender(<Home />, { withRedux: true, mockInitialState: {} });
+    customRender(<Home />, {
+      withRedux: true,
+      mockInitialState: { character: { lastCharacters: [] } },
+    });
 
     const searchInput = screen.getByPlaceholderText(
       'Search by name...'
@@ -61,7 +67,10 @@ describe('Home Component', () => {
     let spy = jest.spyOn(axios, 'get');
 
     await act(async () => {
-      customRender(<Home />, { withRedux: true, mockInitialState: {} });
+      customRender(<Home />, {
+        withRedux: true,
+        mockInitialState: { character: { lastCharacters: [] } },
+      });
     });
 
     const nameInput = screen.getByPlaceholderText(
@@ -78,7 +87,7 @@ describe('Home Component', () => {
         params: undefined,
       });
       expect(spy).toHaveBeenNthCalledWith(2, endPointCharacter, {
-        params: { name: 'Rick' },
+        params: { name: 'Rick', page: 1 },
       });
     });
     spy.mockRestore();
@@ -91,7 +100,10 @@ describe('Home Component', () => {
     jest.spyOn(axios, 'get').mockRejectedValue(mockError);
     await expect(fetchFilteredCharacters()).rejects.toThrow(errorMessage);
 
-    customRender(<Home />, { withRedux: true, mockInitialState: {} });
+    customRender(<Home />, {
+      withRedux: true,
+      mockInitialState: { character: { lastCharacters: [] } },
+    });
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
 
