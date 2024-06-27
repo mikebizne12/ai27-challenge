@@ -1,8 +1,8 @@
-const Loading = ({ open }: LoadingPropTypes): JSX.Element => {
+const Loading = ({ open, className }: LoadingPropTypes): JSX.Element => {
   return (
     <>
       {open && (
-        <div className="flex items-center justify-center">
+        <div className={`flex items-center justify-center ${className}`}>
           <svg
             aria-hidden="true"
             className="w-12 h-12 text-gray-200 animate-spin dark:text-yellow-600 fill-yellow-600"
@@ -28,6 +28,7 @@ const Loading = ({ open }: LoadingPropTypes): JSX.Element => {
 
 type LoadingPropTypes = {
   open: boolean;
+  className?: string;
 };
 
 export default Loading;
