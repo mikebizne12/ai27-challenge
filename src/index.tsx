@@ -4,24 +4,10 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Root from './routes/root';
-import NotFound from './pages/notFound/NotFound';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes/routes';
 import store, { persistor } from './redux/store';
-import Detail from './pages/detail/Detail';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: '/detail',
-    element: <Detail />,
-    errorElement: <NotFound />,
-  },
-]);
+import Logo from './components/Logo/Logo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -31,6 +17,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
+        <Logo />
         <RouterProvider router={router} />
       </PersistGate>
     </Provider>
