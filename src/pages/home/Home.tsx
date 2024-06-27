@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 import Logo from 'src/components/Logo/Logo';
 import { fetchFilteredCharacters } from 'src/services/characterApi';
 import { Result } from '../../utils/interfaces/result';
-import { Character } from '../../utils/enums/character';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Loading from '../../components/Loading/Loading';
 import { Filter } from 'src/utils/interfaces/filter';
 import NotFoundAlert from '../../components/NotFoundAlert/NotFoundAlert';
+import { useAppDispatch } from 'src/redux/hooks';
+import { saveCharacteSelected } from 'src/redux/slices/characterSlice';
+import { Character } from 'src/utils/interfaces/character';
+import { CharacterStatus } from 'src/utils/enums/character';
 
 export default function Home() {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [data, setData] = useState<Result[]>([]);
@@ -52,6 +56,10 @@ export default function Home() {
   const handleClear = () => {
     setFormData({ name: '' });
     fetchCharacters();
+  };
+
+  const handleSelectCharacter = (character: Character) => {
+    dispatch(saveCharacteSelected(character));
   };
 
   return (
@@ -139,7 +147,7 @@ export default function Home() {
                     <span
                       className={
                         'rounded-full px-2.5 py-2 rounded-full' +
-                        (item.status === Character.ALIVE
+                        (item.status === CharacterStatus.ALIVE
                           ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
                           : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300')
                       }
@@ -169,6 +177,9 @@ export default function Home() {
 
                     <a
                       href={`/detail`}
+                      onClick={() => {
+                        dispatch(saveCharacteSelected(item));
+                      }}
                       className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white dark:bg-yellow-500 dark:bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 "
                     >
                       View
