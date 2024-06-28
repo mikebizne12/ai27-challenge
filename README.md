@@ -11,8 +11,7 @@ https://clever-brush.surge.sh/
 
 ```bash
 git clone git@github.com:mikebizne12/ai27-challenge.git
-cd ai27-challenge
-npm install
+cd ai27-challenge 
 ```
 
 ## Install dependencies
