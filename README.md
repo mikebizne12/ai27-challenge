@@ -41,7 +41,7 @@ npm run test
 ## Build
 
 ```bash
-npm run test
+npm run build
 ```
 
 Builds the app for production to the `build` folder.\
